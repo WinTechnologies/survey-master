@@ -17,7 +17,7 @@ class UserController extends Controller
 
         if (Auth::attempt(['email' => $params['email'], 'password' => $params['password']])) {
             $user = Auth::user();
-            $token =  $user->createToken('AppName')->accessToken;
+            $token =  $user->createToken('SurveyMaster')->accessToken;
 
             return response()->json([
                 'status'    =>  'success',
@@ -50,7 +50,7 @@ class UserController extends Controller
             $input = $request->all();
             $input['password'] = bcrypt($input['password']);
             $user = User::create($input);
-            $token =  $user->createToken('AppName')-> accessToken;
+            $token =  $user->createToken('SurveyMaster')-> accessToken;
 
             return response()->json([
                     'status'    =>  'success',
@@ -63,7 +63,7 @@ class UserController extends Controller
                 'status'    =>  'error',
                 'token'     => null,
                 'message'   =>  'Exception'
-            ], 400);
+            ], 404);
         } catch( \Illuminate\Database\QueryException $qe) {
             return response()->json([
                 'status'    =>  'error',
@@ -71,5 +71,25 @@ class UserController extends Controller
                 'message'   =>  $qe->errorInfo
             ], 400);
         }
+    }
+
+    public function logout(Request $request) {
+        $user = Auth::guard('api')->user();
+        if ($user) {
+            $user->remember_token = null;
+            $user->save();
+        }
+
+        Auth::logout();
+        return response()->json([
+            'status'    =>  'success',
+            'token'     => null,
+            'message'   =>  "logout"
+        ], 200);
+    }
+
+    public function currentUser(Request $request) {
+        $user = Auth::guard('api')->user();
+        return $user;
     }
 }
