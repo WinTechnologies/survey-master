@@ -31,6 +31,13 @@ class Survey extends Model
     {
         return $this->hasMany('App\Models\Question');
     }
+
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($survey) {
+            $survey->questions()->get()->each->delete();
+       });
+    }
 }
 
 

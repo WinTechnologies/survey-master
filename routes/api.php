@@ -46,7 +46,6 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/survey/edit/{id}','Api\SurveyController@edit')->name('survieies.edit');
     Route::post('/surveies', 'Api\SurveyController@create')->name('surveies.create');
     Route::post('/surveies/duplicate/{id}', 'Api\SurveyController@duplicate')->name('surveies.duplicate');
-    Route::put('/surveies/{id}', 'Api\SurveyController@update')->name('surveies.update');
     Route::delete('/surveies/{id}', 'Api\SurveyController@delete')->name('surveies.delete');
 
 });

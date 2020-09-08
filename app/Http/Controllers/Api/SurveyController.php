@@ -21,17 +21,56 @@ class SurveyController extends Controller
 
     public function edit($id) {
         $survey = Survey::find($id);
-
         $result = [];
-        foreach($survey as $row) {
-            $result['survey'] = [
-                'title'         =>  $row->title
 
+        $result['survey'] = [
+            'title'             =>  $survey->title,
+            'intro'             =>  $survey->intro,
+            'btn_start'         =>  $survey->btn_start,
+            'btn_submit'        =>  $survey->btn_submit,
+            'google_analytics'  =>  $survey->google_analytics,
+            'facebook_pixel'    =>  $survey->facebook_pixel,
+            'welcome_image'     =>  $survey->welcome_image,
+            'population_id'     =>  $survey->population_id,
+            'theme_id'          =>  $survey->theme_id,
+            'language'          =>  $survey->language,
+            'limit'             =>  $survey->limit,
+            'views'             =>  $survey->views,
+            'timer_min'         =>  $survey->timer_min,
+            'timer_sec'         =>  $survey->timer_sec,
+            'expired_at'        =>  $survey->expired_at,
+            'auto_submit'       =>  $survey->auto_submit,
+            'questions'         =>  null,
+        ];
+
+        foreach($survey->questions as $q) {
+            $question = [
+                'survey_id'             =>  $q->survey_id,
+                'type'                  =>  $q->type,
+                'question'              =>  $q->question,
+                'image'                 =>  $q->image,
+                'order'                 =>  $q->order,
+                'is_reliability'        =>  $q->is_reliability,
+                'is_required'           =>  $q->is_required,
+                'is_main'               =>  $q->is_main,
+                'is_random'             =>  $q->is_random,
+                'demographic'           =>  $q->demographic,
+                'answer_limit'          =>  $q->answer_limit,
+                'jump_id'               =>  $q->jump_id,
+                'answers'               =>  null
             ];
+
+            $answers = $q->answers;
+
+            foreach($answers as $a) {
+                $question['answers'][] = $a;
+            }
+
+            $result['survey']['questions'][] = $question;
         }
         return response()->json([
             'message'   =>  'Get the survey by id',
-            'result'    =>  $survey
+            'result'    =>  $result
         ]);
     }
 
@@ -155,9 +194,23 @@ class SurveyController extends Controller
     public function duplicate(Request $request, $id) {
     }
 
-    public function update(Request $request, $id) {
-    }
-
     public function delete($id) {
+        $survey = Survey::find($id);
+
+        if ($survey != null)
+        {
+            $survey->delete();
+            return response()->json([
+                'status'        =>  'success',
+                'message'       =>  'The survey has been deleted successfully',
+                'code'          =>  200
+            ]);
+        } else {
+            return response()->json([
+                'status'        =>  'warning',
+                'message'       =>  'The survey does not exist.',
+                'code'          =>  404
+            ]);
+        }
     }
 }

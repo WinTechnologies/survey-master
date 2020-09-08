@@ -29,4 +29,11 @@ class Question extends Model
     public function survey() {
         return $this->belongsTo('App\Models\Survey','survey_id', 'id');
     }
+
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($question) {
+            $question->answers()->delete();
+       });
+    }
 }
