@@ -32,6 +32,10 @@ class Survey extends Model
         return $this->hasMany('App\Models\Question');
     }
 
+    public function population() {
+        return $this->belongsTo('App\Models\Population','population_id', 'id');
+    }
+
     public static function boot() {
         parent::boot();
         static::deleting(function($survey) {
