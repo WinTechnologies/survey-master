@@ -11,6 +11,7 @@ class SettingController extends Controller
     public function index() {
         try {
             $settings = DB::table('settings')->get();
+            $timezone = timezone_identifiers_list();
 
             $result = [];
             foreach($settings as $row) {
@@ -19,7 +20,8 @@ class SettingController extends Controller
             return response()->json([
                 'status'    =>  'success',
                 'result'     => $result,
-                'message'   =>  'Settings'
+                'message'   =>  'Settings',
+                'timezone_list' => $timezone
             ], 200);
 
         } catch (\ErrorException $ex) {

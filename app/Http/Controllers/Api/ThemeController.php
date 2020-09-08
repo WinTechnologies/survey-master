@@ -54,7 +54,7 @@ class ThemeController extends Controller
             $status = 'success';
         } catch (\ErrorException $ex) {
             $status = 'error';
-            $message = $ex->message;
+            $message = $ex->getMessage();
             $code = 451;
         } catch( \Illuminate\Database\QueryException $qe) {
             $status = 'error';
@@ -109,7 +109,7 @@ class ThemeController extends Controller
             $status = 'success';
         } catch (\ErrorException $ex) {
             $status = 'error';
-            $message = $ex->message;
+            $message = $ex->getMessage();
             $code = 451;
         } catch( \Illuminate\Database\QueryException $qe) {
             $status = 'error';
