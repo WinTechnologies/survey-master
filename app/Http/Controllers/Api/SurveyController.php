@@ -54,6 +54,7 @@ class SurveyController extends Controller
             'timer_sec'         =>  $survey->timer_sec,
             'expired_at'        =>  $survey->expired_at,
             'auto_submit'       =>  $survey->auto_submit,
+            'is_one_response'   =>  $survey->is_one_response,
             'questions'         =>  null,
         ];
 
@@ -120,6 +121,7 @@ class SurveyController extends Controller
             $new_survey->timer_sec = $input_survey['timer_sec'];
             $new_survey->expired_at = $input_survey['expired_at'];
             $new_survey->auto_submit = $input_survey['auto_submit'];
+            $new_survey->is_one_response = $input_survey['is_one_response'];
             $new_survey->save();
             $survey_id = $new_survey->id;
 

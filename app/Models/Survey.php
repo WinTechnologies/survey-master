@@ -24,7 +24,8 @@ class Survey extends Model
         'timer_min',
         'timer_sec',
         'expired_at',
-        'auto_submit'
+        'auto_submit',
+        'is_one_response'
     ];
 
     public function questions()
