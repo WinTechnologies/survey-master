@@ -55,6 +55,7 @@ class SurveyController extends Controller
             'expired_at'        =>  $survey->expired_at,
             'auto_submit'       =>  $survey->auto_submit,
             'is_one_response'   =>  $survey->is_one_response,
+            'redirect_url'      =>  $survey->redirect_url,
             'questions'         =>  null,
         ];
 
@@ -122,6 +123,7 @@ class SurveyController extends Controller
             $new_survey->expired_at = $input_survey['expired_at'];
             $new_survey->auto_submit = $input_survey['auto_submit'];
             $new_survey->is_one_response = $input_survey['is_one_response'];
+            $new_survey->redirect_url = $input_survey['redirect_url'];
             $new_survey->save();
             $survey_id = $new_survey->id;
 

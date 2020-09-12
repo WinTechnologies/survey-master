@@ -25,7 +25,8 @@ class Survey extends Model
         'timer_sec',
         'expired_at',
         'auto_submit',
-        'is_one_response'
+        'is_one_response',
+        'redirect_url'
     ];
 
     public function questions()
