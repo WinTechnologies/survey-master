@@ -48,4 +48,15 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/surveies/duplicate/{id}', 'Api\SurveyController@duplicate')->name('surveies.duplicate');
     Route::delete('/surveies/{id}', 'Api\SurveyController@delete')->name('surveies.delete');
 
+    // Results
+    Route::get('/basic/{survey_id}', 'Api\ResultController@basic')->name('results.basic');
+    Route::get('/is_answered/{survey_id}', 'Api\ResultController@is_answered')->name('results.is_answered');
+    Route::get('/is_limited/{survey_id}', 'Api\ResultController@is_limited')->name('results.is_limited');
+    Route::get('/is_expired/{survey_id}', 'Api\ResultController@is_expired')->name('results.is_expired');
+    Route::post('/user_answer', 'Api\ResultController@user_answer')->name('results.user_answer');
+
+    // Drop-Off
+    Route::post('/drop-off/init/{survey_id}', 'Api\DropOffController@init')->name('drop_offs.init');
+    Route::put('/drop-off/{survey_id}', 'Api\DropOffController@update')->name('drop_offs.update');
+    Route::put('/answer-started/{survey_id}', 'Api\DropOffController@answer_started')->name('drop_offs.answer_started');
 });

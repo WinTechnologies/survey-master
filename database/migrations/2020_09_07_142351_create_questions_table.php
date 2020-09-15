@@ -27,6 +27,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('demographic')->default(0);   // 0: default, 1: gender, 2:ages, 3: location, 4: education, 5: other
             $table->integer('answer_limit')->nullable();
             $table->integer('jump_id')->default(0);         // 0: default, > 0: jump id
+            $table->string('video_src')->nullable();
             $table->timestamps();
         });
     }

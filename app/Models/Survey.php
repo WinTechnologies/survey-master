@@ -26,7 +26,9 @@ class Survey extends Model
         'expired_at',
         'auto_submit',
         'is_one_response',
-        'redirect_url'
+        'redirect_url',
+        'shape',
+        'point'
     ];
 
     public function questions()
@@ -43,6 +45,10 @@ class Survey extends Model
         static::deleting(function($survey) {
             $survey->questions()->get()->each->delete();
        });
+    }
+
+    public function drop_offs() {
+        return $this->hasMany('App\Models\DropOff');
     }
 }
 

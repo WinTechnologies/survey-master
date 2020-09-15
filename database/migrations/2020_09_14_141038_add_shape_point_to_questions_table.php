@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRedirectUrlToSurveiesTable extends Migration
+class AddShapePointToQuestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddRedirectUrlToSurveiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('surveies', function (Blueprint $table) {
-            $table->string('redirect_url')->nullable();
+        Schema::table('questions', function (Blueprint $table) {
+            $table->string('shape')->nullable();
+            $table->integer('point')->nullable();
         });
     }
 
@@ -25,7 +26,7 @@ class AddRedirectUrlToSurveiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('questions', function (Blueprint $table) {
             //
         });
     }

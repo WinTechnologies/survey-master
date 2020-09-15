@@ -18,7 +18,10 @@ class Question extends Model
         'is_random',
         'demographic',
         'answer_limit',
-        'jump_id'
+        'jump_id',
+        'shape',
+        'point',
+        'video_src'
     ];
 
     public function answers()

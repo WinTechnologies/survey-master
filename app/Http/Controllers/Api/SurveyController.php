@@ -16,6 +16,7 @@ class SurveyController extends Controller
         $result = [];
         foreach($surveies as $s) {
             $result[] = [
+                'id'            =>  $s->id,
                 'title'         =>  $s->title,
                 'population'    =>  $s->population->group_name,
                 'language'      =>  $s->language,
@@ -73,6 +74,9 @@ class SurveyController extends Controller
                 'demographic'           =>  $q->demographic,
                 'answer_limit'          =>  $q->answer_limit,
                 'jump_id'               =>  $q->jump_id,
+                'shape'                 =>  $q->shape,
+                'point'                 =>  $q->point,
+                'video_src'             =>  $q->video_src,
                 'answers'               =>  null
             ];
 
@@ -97,7 +101,6 @@ class SurveyController extends Controller
 
         try {
             $params = $request->json()->all();
-
             // Begin Transaction
             DB::beginTransaction();
             $input_survey = $params['survey'];
@@ -158,6 +161,9 @@ class SurveyController extends Controller
                     'jump_id'           =>  $question['jump_id'],
                     'btn_text'          =>  $btn_text,
                     'statement_btn_color'=> $statement_btn_color,
+                    'shape'              =>  $question['shape'],
+                    'point'              =>  $question['point'],
+                    'video_src'          =>  $question['video_src']
                 ];
 
                 $new_question = Question::create($new_question_values);
