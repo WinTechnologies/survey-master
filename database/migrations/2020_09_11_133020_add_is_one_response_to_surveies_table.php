@@ -13,7 +13,7 @@ class AddIsOneResponseToSurveiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('surveys', function (Blueprint $table) {
             $table->boolean('is_one_response')->default(1);
         });
     }
@@ -25,7 +25,7 @@ class AddIsOneResponseToSurveiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('surveys', function (Blueprint $table) {
             //
         });
     }

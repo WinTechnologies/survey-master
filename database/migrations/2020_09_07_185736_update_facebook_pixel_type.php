@@ -13,7 +13,7 @@ class UpdateFacebookPixelType extends Migration
      */
     public function up()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('surveys', function (Blueprint $table) {
             $table->mediumText('facebook_pixel')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ class UpdateFacebookPixelType extends Migration
      */
     public function down()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('surveys', function (Blueprint $table) {
             //
         });
     }

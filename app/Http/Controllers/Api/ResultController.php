@@ -108,14 +108,14 @@ class ResultController extends Controller
             $replies = DB::table('results')->where('survey_id', $survey_id)->where('population_id', $survey->population_id)->count();
             if ($replies >= $max_size) {
                 return response()->json([
-                    'message'   =>  'This survey has collected enough data.'
+                    'message'   =>  'This survey has collected enough data.',
                     'next'    =>  false
                 ]);
             }
         }
 
         return response()->json([
-            'message'   =>    'This survey is not limited.'
+            'message'   =>    'This survey is not limited.',
             'next'    =>  true
         ]);
     }

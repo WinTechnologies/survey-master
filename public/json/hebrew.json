@@ -1,0 +1,11 @@
+{
+    "denied": "גישה נדחתה",
+	"survey_end": "הסקר הסתיים",
+	"type_answer": "הקלד את התשובה שלך כאן",
+	"required_text": "נדרש",
+	"optional_text": "אופציונאלי",
+	"browse_file": "עיון בקובץ",
+	"multi_des": "ניתן לבחור יותר מתשובה אחת",
+	"fill_all_ques": "ענה על כל השאלות שנשאלו",
+	"timeout_text": "פסק זמן"
+}

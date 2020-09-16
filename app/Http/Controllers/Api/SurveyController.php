@@ -18,7 +18,8 @@ class SurveyController extends Controller
             $result[] = [
                 'id'            =>  $s->id,
                 'title'         =>  $s->title,
-                'population'    =>  $s->population->group_name,
+                'population_id' =>  $s->population_id,
+                'group_name'    =>  $s->population->group_name,
                 'language'      =>  $s->language,
                 'views'         =>  $s->views,
                 'data_created'  =>  $s->created_at
@@ -36,9 +37,19 @@ class SurveyController extends Controller
 
     public function edit($id) {
         $survey = Survey::find($id);
+
+        if(!$survey)
+            return response()->json([
+                'message'   =>  'The survey id is null.',
+                'result'    =>  null,
+                'next'      =>  false,
+                'code'      =>  400,
+            ]);
+
         $result = [];
 
         $result['survey'] = [
+            'id'                =>  $id,
             'title'             =>  $survey->title,
             'intro'             =>  $survey->intro,
             'btn_start'         =>  $survey->btn_start,
@@ -88,9 +99,13 @@ class SurveyController extends Controller
 
             $result['survey']['questions'][] = $question;
         }
+
+
         return response()->json([
             'message'   =>  'Get the survey by id',
-            'result'    =>  $result
+            'result'    =>  $result,
+            'code'      =>  200,
+            'status'    =>  'success'
         ]);
     }
 
@@ -391,5 +406,29 @@ class SurveyController extends Controller
                 'code'          =>  404
             ]);
         }
+    }
+
+    public function doc_import(Request $request) {
+        $message = '';
+        $code = 400;
+        $status = 'error';
+        $survey = null;
+
+        if($request->hasFile('doc')) {
+            $doc = $request->file('doc');
+            $filename = $doc->path();
+            $content = read_doc($filename);
+            $survey = get_survey_from_doc($content);
+            $message = 'The survey has been parsed from the file you imported.';
+            $status = 'success';
+            $code = 200;
+        }
+
+        return response()->json([
+            'status'        =>  $status,
+            'message'       =>  $message,
+            'code'          =>  $code,
+            'survey'        =>  $survey
+        ]);
     }
 }

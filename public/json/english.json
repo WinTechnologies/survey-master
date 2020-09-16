@@ -1,0 +1,11 @@
+{
+    "denied": "Access denied",
+	"survey_end": "This survey has ended.",
+	"type_answer": "Type your answer here.",
+	"required_text": "Required",
+	"optional_text": "Optional",
+	"browse_file": "Browse File",
+	"multi_des": "You can select more than one answer",
+	"fill_all_ques": "Please answer all reuired questions",
+	"timeout_text": "Time out"
+}

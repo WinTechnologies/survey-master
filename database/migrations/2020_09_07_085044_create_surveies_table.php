@@ -13,7 +13,7 @@ class CreateSurveiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('surveies', function (Blueprint $table) {
+        Schema::create('surveys', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('intro');
@@ -42,6 +42,6 @@ class CreateSurveiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surveies');
+        Schema::dropIfExists('surveys');
     }
 }

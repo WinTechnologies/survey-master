@@ -40,13 +40,16 @@ Route::middleware('auth:api')->group(function(){
     Route::put('/populations/{id}', 'Api\PopulationController@update')->name('populations.update');
     Route::delete('/populations/{id}', 'Api\PopulationController@delete')->name('populations.delete');
 
-    // Surveies
-    Route::get('/all_surveies', 'Api\SurveyController@all')->name('surveies.all');
-    Route::get('/survey/template/{id}/{utm}', 'Api\SurveyController@template')->name('surveies.template');
-    Route::get('/survey/edit/{id}','Api\SurveyController@edit')->name('survieies.edit');
-    Route::post('/surveies', 'Api\SurveyController@create')->name('surveies.create');
-    Route::post('/surveies/duplicate/{id}', 'Api\SurveyController@duplicate')->name('surveies.duplicate');
-    Route::delete('/surveies/{id}', 'Api\SurveyController@delete')->name('surveies.delete');
+    // Surveys
+    Route::get('/all_surveys', 'Api\SurveyController@all')->name('surveys.all');
+    Route::get('/survey/template/{id}/{utm}', 'Api\SurveyController@template')->name('surveys.template');
+    Route::get('/survey/edit/{id}','Api\SurveyController@edit')->name('surveys.edit');
+    Route::post('/surveys', 'Api\SurveyController@create')->name('surveys.create');
+    Route::post('/surveys/duplicate/{id}', 'Api\SurveyController@duplicate')->name('surveys.duplicate');
+    Route::delete('/surveys/{id}', 'Api\SurveyController@delete')->name('surveys.delete');
+
+    // Import
+    Route::post('/doc-import', 'Api\SurveyController@doc_import')->name('surveys.doc_import');
 
     // Results
     Route::get('/basic/{survey_id}', 'Api\ResultController@basic')->name('results.basic');
@@ -59,4 +62,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/drop-off/init/{survey_id}', 'Api\DropOffController@init')->name('drop_offs.init');
     Route::put('/drop-off/{survey_id}', 'Api\DropOffController@update')->name('drop_offs.update');
     Route::put('/answer-started/{survey_id}', 'Api\DropOffController@answer_started')->name('drop_offs.answer_started');
+
+    // Language
+    Route::get('/language/{lang}', 'Api\LanguageController@index')->name('language.index');
 });

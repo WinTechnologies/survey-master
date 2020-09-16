@@ -13,7 +13,7 @@ class AddRedirectUrlToSurveiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('surveys', function (Blueprint $table) {
             $table->string('redirect_url')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddRedirectUrlToSurveiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('surveies', function (Blueprint $table) {
+        Schema::table('surveys', function (Blueprint $table) {
             //
         });
     }
