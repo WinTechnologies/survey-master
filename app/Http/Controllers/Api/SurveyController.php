@@ -68,7 +68,7 @@ class SurveyController extends Controller
             'auto_submit'       =>  $survey->auto_submit,
             'is_one_response'   =>  $survey->is_one_response,
             'redirect_url'      =>  $survey->redirect_url,
-            'questions'         =>  null,
+            'questions'         =>  [],
         ];
 
         foreach($survey->questions as $q) {
@@ -88,7 +88,7 @@ class SurveyController extends Controller
                 'shape'                 =>  $q->shape,
                 'point'                 =>  $q->point,
                 'video_src'             =>  $q->video_src,
-                'answers'               =>  null
+                'answers'               =>  []
             ];
 
             $answers = $q->answers;
@@ -129,18 +129,18 @@ class SurveyController extends Controller
             $new_survey->intro = $input_survey['intro'];
             $new_survey->btn_start = $input_survey['btn_start'];
             $new_survey->btn_submit = $input_survey['btn_submit'];
-            $new_survey->google_analytics = $input_survey['google_analytics'];
-            $new_survey->facebook_pixel = $input_survey['facebook_pixel'];
+            $new_survey->google_analytics = isset($input_survey['google_analytics'])?$input_survey['google_analytics']:'';
+            $new_survey->facebook_pixel = isset($input_survey['facebook_pixel'])?$input_survey['facebook_pixel']:'';
             $new_survey->welcome_image = $welcome_image;
             $new_survey->population_id = $input_survey['population_id'];
             $new_survey->theme_id = $input_survey['theme_id'];
             $new_survey->language = $input_survey['language'];
-            $new_survey->limit = $input_survey['limit'];
+            $new_survey->limit = isset($input_survey['limit'])?$input_survey['limit']:0;
             $new_survey->timer_min = $input_survey['timer_min'];
             $new_survey->timer_sec = $input_survey['timer_sec'];
             $new_survey->expired_at = $input_survey['expired_at'];
             $new_survey->auto_submit = $input_survey['auto_submit'];
-            $new_survey->is_one_response = $input_survey['is_one_response'];
+            $new_survey->is_one_response = isset($input_survey['is_one_response'])?1:0;
             $new_survey->redirect_url = $input_survey['redirect_url'];
             $new_survey->save();
             $survey_id = $new_survey->id;
@@ -185,6 +185,7 @@ class SurveyController extends Controller
                 $question_id = $new_question->id;
 
                 $input_answers = $question['answers'];
+
                 foreach($input_answers as $answer) {
                     // Upload Answer Image
                     $answer_image = '';
