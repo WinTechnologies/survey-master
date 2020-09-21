@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Result;
@@ -15,7 +16,8 @@ class ResultController extends Controller
         if(!isset($survey_id))
             return response()->json([
                 'message'   =>  'The survey id is null.',
-                'result'    =>  null
+                'result'    =>  null,
+                'code'      =>  200,
             ]);
 
         $session_id = get_session_id($survey_id);
@@ -32,7 +34,8 @@ class ResultController extends Controller
 
         return response()->json([
             'message'   =>  'This is the basic information for the survey id '.$survey_id,
-            'result'    =>  $result
+            'result'    =>  $result,
+            'code'      => 200
         ]);
     }
 
@@ -56,7 +59,7 @@ class ResultController extends Controller
             'message'   =>  'To check whether you\' ever participated to this survey or not.',
             'is_ever_answered'  =>  $is_ever_answered,
             'answer_count'      =>  $answer_count,
-            'next'              =>  $is_ever_answered
+            'next'              =>  true
         ]);
     }
 
@@ -75,7 +78,7 @@ class ResultController extends Controller
         date_default_timezone_set($check_timezone);
         $date=date("Y-m-d h:m:s");
 
-        if ($survey->expire_date < $date) {
+        if ($survey->expired_at < $date) {
             return response()->json([
                 'message'   =>  'The survey is expired.',
                 'result'    =>  null,
@@ -95,28 +98,30 @@ class ResultController extends Controller
             return response()->json([
                 'message'   =>  'The survey id is null.',
                 'result'    =>  null,
-                'next'      =>  false
+                'next'      =>  false,
+                'code'     => 200
             ]);
 
         $survey = Survey::find($survey_id);
-        $population = $survey->$population();
-
+        $group = $survey->population;
         if($survey->limit) {
-            $group_size = $population->size_set;
-            $limit_number = Population::find($population->parent_set);
+            $group_size = $group->size_set;
+            $limit_number = Population::find($group->parent_set);
             $max_size = ($limit_number->size_set * $group_size) / 100;
             $replies = DB::table('results')->where('survey_id', $survey_id)->where('population_id', $survey->population_id)->count();
             if ($replies >= $max_size) {
                 return response()->json([
                     'message'   =>  'This survey has collected enough data.',
-                    'next'    =>  false
+                    'next'      =>  false,
+                    'code'     => 200
                 ]);
             }
         }
 
         return response()->json([
-            'message'   =>    'This survey is not limited.',
-            'next'    =>  true
+            'message'   =>  'This survey is not limited.',
+            'next'      =>  true,
+            'code'      =>  200
         ]);
     }
 
@@ -152,7 +157,7 @@ class ResultController extends Controller
 
             foreach($answers as $row) {
                 $question_id = $row['question_id'];
-                $answer_id = $row['answer_id'];
+                $answer_id = $row['answer'];
                 $start_at = $row['start_at'];
                 $end_at = $row['end_at'];
 
@@ -163,7 +168,7 @@ class ResultController extends Controller
                         $temp = [
                             'survey_id'         =>  $survey_id,
                             'question_id'       =>  $question_id,
-                            'answer_id'         =>  $a_id,
+                            'answer'            =>  $a_id,
                             'population_id'     =>  $population_id,
                             'session_id'        =>  $session_id,
                             'random_session_id' =>  $random_session_id,

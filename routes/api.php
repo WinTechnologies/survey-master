@@ -16,6 +16,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('logout', 'Api\UserController@logout')->name('logout');
 Route::post('login', 'Api\UserController@login')->name('login');
 Route::post('register', 'Api\UserController@register')->name('register');
+// Results
+Route::prefix('pre-survey')->group(function(){
+    Route::get('/basic/{survey_id}', 'Api\ResultController@basic')->name('results.basic');
+    Route::get('/is_answered/{survey_id}', 'Api\ResultController@is_answered')->name('results.is_answered');
+    Route::get('/is_limited/{survey_id}', 'Api\ResultController@is_limited')->name('results.is_limited');
+    Route::get('/is_expired/{survey_id}', 'Api\ResultController@is_expired')->name('results.is_expired');
+    Route::post('/user_answer', 'Api\ResultController@user_answer')->name('results.user_answer');
+
+    // Drop-Off
+    Route::post('/drop-off/init/{survey_id}', 'Api\DropOffController@init')->name('drop_offs.init');
+    Route::put('/drop-off/{survey_id}', 'Api\DropOffController@update')->name('drop_offs.update');
+    Route::put('/answer-started/{survey_id}', 'Api\DropOffController@answer_started')->name('drop_offs.answer_started');
+
+    // Language
+    Route::get('/language/{lang}', 'Api\LanguageController@index')->name('language.index');
+
+    Route::get('/survey/{id}','Api\SurveyController@edit');
+});
+
 
 Route::middleware('auth:api')->group(function(){
     // Get Current User
@@ -50,19 +69,4 @@ Route::middleware('auth:api')->group(function(){
 
     // Import
     Route::post('/doc-import', 'Api\SurveyController@doc_import')->name('surveys.doc_import');
-
-    // Results
-    Route::get('/basic/{survey_id}', 'Api\ResultController@basic')->name('results.basic');
-    Route::get('/is_answered/{survey_id}', 'Api\ResultController@is_answered')->name('results.is_answered');
-    Route::get('/is_limited/{survey_id}', 'Api\ResultController@is_limited')->name('results.is_limited');
-    Route::get('/is_expired/{survey_id}', 'Api\ResultController@is_expired')->name('results.is_expired');
-    Route::post('/user_answer', 'Api\ResultController@user_answer')->name('results.user_answer');
-
-    // Drop-Off
-    Route::post('/drop-off/init/{survey_id}', 'Api\DropOffController@init')->name('drop_offs.init');
-    Route::put('/drop-off/{survey_id}', 'Api\DropOffController@update')->name('drop_offs.update');
-    Route::put('/answer-started/{survey_id}', 'Api\DropOffController@answer_started')->name('drop_offs.answer_started');
-
-    // Language
-    Route::get('/language/{lang}', 'Api\LanguageController@index')->name('language.index');
 });

@@ -9,7 +9,7 @@ class Result extends Model
     protected $fillable = [
         'survey_id',
         'question_id',
-        'answer_id',
+        'answer',
         'population_id',
         'session_id',
         'random_session_id',

@@ -17,7 +17,7 @@ class CreateResultsTable extends Migration
             $table->id();
             $table->integer('survey_id');
             $table->integer('question_id');
-            $table->integer('answer_id');
+            $table->string('answer');
             $table->integer('population_id');
             $table->string('session_id');
             $table->string('random_session_id');

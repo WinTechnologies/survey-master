@@ -35,14 +35,16 @@ class PopulationController extends Controller
         }
         return response()->json([
             'message'   =>  'Get the population list',
-            'result' => $population
+            'result' => $population,
+            'code'  =>  200,
         ]);
     }
 
     public function get($id) {
         return response()->json([
             'message'   =>  'Get the population by id',
-            'result'    =>  Population::where('parent_set',$id)->get()
+            'result'    =>  Population::where('parent_set',$id)->get(),
+            'code'      =>  200,
         ]);
     }
 

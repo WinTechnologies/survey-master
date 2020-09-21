@@ -73,6 +73,7 @@ class SurveyController extends Controller
 
         foreach($survey->questions as $q) {
             $question = [
+                'question_id'           =>  $q->id,
                 'survey_id'             =>  $q->survey_id,
                 'type'                  =>  $q->type,
                 'question'              =>  $q->question,
