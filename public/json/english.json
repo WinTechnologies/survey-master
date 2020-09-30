@@ -7,5 +7,13 @@
 	"browse_file": "Browse File",
 	"multi_des": "You can select more than one answer",
 	"fill_all_ques": "Please answer all reuired questions",
-	"timeout_text": "Time out"
+    "timeout_text": "Time out",
+    "enough_data": "This survey has collected enough data",
+    "has_answered": "You has answered this survey",
+    "start": "Start",
+    "next": "Next",
+    "skip": "Skip",
+    "submit": "Submit",
+    "notification": "You can move forword by clicking \"Next\" Button or press \"Enter\" key.",
+    "time_remaining": "Time Remaining"
 }

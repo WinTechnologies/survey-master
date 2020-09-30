@@ -117,12 +117,13 @@ class SurveyController extends Controller
 
         try {
             $params = $request->json()->all();
+
             // Begin Transaction
             DB::beginTransaction();
             $input_survey = $params['survey'];
 
             // Upload Welcome Image
-            $welcome_image = upload_image($input_survey['welcome_image']);
+            $welcome_image = $input_survey['welcome_image'];
 
             // New Survey
             $new_survey = new Survey;
@@ -151,8 +152,6 @@ class SurveyController extends Controller
 
             $answer_list = [];
             foreach($input_questions as $question) {
-                // Upload Question Image
-                $image = upload_image($question['image']);
                 $type = $question['type'];
                 $btn_text = '';
                 $statement_btn_color = '';
@@ -166,7 +165,7 @@ class SurveyController extends Controller
                     'survey_id'         =>  $survey_id,
                     'type'              =>  $type,
                     'question'          =>  $question['question'],
-                    'image'             =>  $image,
+                    'image'             =>  $question['image'],
                     'order'             =>  $question['order'],
                     'is_reliability'    =>  $question['is_reliability'],
                     'is_required'       =>  $question['is_required'],
@@ -188,16 +187,10 @@ class SurveyController extends Controller
                 $input_answers = $question['answers'];
 
                 foreach($input_answers as $answer) {
-                    // Upload Answer Image
-                    $answer_image = '';
-                    if(isset($answer['image'])) {
-                        $answer_image = upload_image($answer['image']);
-                    }
-
                     $answer_list[] = [
                         'question_id'       =>  $question_id,
                         'content'           =>  $answer['content'],
-                        'image'             =>  $answer_image,
+                        'image'             =>  $answer['image'],
                         'correct'           =>  $answer['correct'],
                         'jump_question_id'  =>  $answer['jump_question_id'],
                         'created_at'        =>  now()
@@ -238,7 +231,8 @@ class SurveyController extends Controller
         $code = 200;
         $status = 'error';
 
-        try {
+        try
+        {
             $survey = Survey::find($id);
             $result = [];
             // Begin Transaction
@@ -256,7 +250,7 @@ class SurveyController extends Controller
                 'theme_id'          =>  $survey->theme_id,
                 'language'          =>  $survey->language,
                 'limit'             =>  $survey->limit,
-                'views'             =>  $survey->views,
+                'views'             =>  0,
                 'timer_min'         =>  $survey->timer_min,
                 'timer_sec'         =>  $survey->timer_sec,
                 'expired_at'        =>  $survey->expired_at,
@@ -344,23 +338,28 @@ class SurveyController extends Controller
                 $question_id = $new_question->id;
 
                 $input_answers = $question['answers'];
+                if($input_answers == null) {
+                    continue;
+                }
+
                 foreach($input_answers as $answer) {
                     // Upload Answer Image
                     $answer_image = '';
-                    if(isset($answer['image'])) {
-                        $answer_image = upload_image($answer['image']);
+                    if(isset($answer->image)) {
+                        $answer_image = $answer->image;
                     }
 
                     $answer_list[] = [
                         'question_id'       =>  $question_id,
-                        'content'           =>  $answer['content'],
+                        'content'           =>  $answer->content,
                         'image'             =>  $answer_image,
-                        'correct'           =>  $answer['correct'],
-                        'jump_question_id'  =>  $answer['jump_question_id'],
+                        'correct'           =>  $answer->correct,
+                        'jump_question_id'  =>  $answer->jump_question_id,
                         'created_at'        =>  now()
                     ];
                 }
             }
+
 
             if(isset($answer_list)) {
                 Answer::insert($answer_list);
@@ -432,5 +431,17 @@ class SurveyController extends Controller
             'code'          =>  $code,
             'survey'        =>  $survey
         ]);
+    }
+
+    public function upload(Request $request) {
+        $params = $request->all();
+        $base64 = $params['base64'];
+
+        $image_url = '';
+        if($base64) {
+            $image_url = upload_image($base64);
+        }
+
+        return $image_url;
     }
 }

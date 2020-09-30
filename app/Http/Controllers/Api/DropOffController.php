@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DropOff;
 use App\Models\Survey;
+use Illuminate\Support\Facades\DB;
 
 class DropOffController extends Controller
 {
@@ -21,20 +22,25 @@ class DropOffController extends Controller
             // Begin Transaction
             DB::beginTransaction();
             $survey = Survey::find($survey_id);
-            $questions = $survey->questions();
+
+            $questions = $survey->questions;
 
             $drop_offs = [];
             foreach($questions as $row) {
                 $temp = [
                     'survey_id'     =>  $row->survey_id,
                     'question_id'   =>  $row->id,
-                    'answered'      =>  'visit',
+                    'answer_status' =>  'visit',
                     'device'        =>  $basic_info['device'],
-                    'random_session_id' => $basic_info['random_session_id']
+                    'random_session_id' => $basic_info['random_session_id'],
+                    'created_at'        =>  now()
                 ];
 
                 array_push($drop_offs, $temp);
             }
+
+            $survey->increment('views');
+
             DB::table('drop_offs')->insert($drop_offs);
             // Commit
             DB::commit();

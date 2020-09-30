@@ -16,6 +16,7 @@ if(!function_exists('create_random_string')) {
 if(!function_exists('upload_image')) {
     function upload_image($img_str) {
         $image_url = "";
+        $img_path = "";
         if(isset($img_str)) {
             // Create Survey Directory in the storage
             if(!Storage::disk('local')->exists('public/surveys'))
@@ -28,10 +29,11 @@ if(!function_exists('upload_image')) {
             $base64_image = base64_decode($base64_str);
             $image_filename = 'survey-'.time().'.png';
             $image_url = 'public/surveys/'.$image_filename;
+            $img_path = 'storage/surveys/'.$image_filename;
             Storage::disk('local')->put($image_url, $base64_image, 'public');
         }
 
-        return $image_url;
+        return $img_path;
     }
 }
 
@@ -210,5 +212,79 @@ if(!function_exists('get_survey_from_doc')) {
         }
 
         return $survey;
+    }
+}
+
+if(!function_exists('get_params')) {
+    function get_where_conditions($params) {
+        $trend = isset($params['trend'])?$params['trend']:'';
+        $trust = isset($params['trust'])?$params['trust']:1;
+        $population_id = isset($params['population_id'])?$params['population_id']:0;
+        $device = isset($params['device'])?$params['device']:'';
+
+        $where_trend = '';
+        if(strlen($trend) > 0 ) {
+            $where_trend = str_replace("\'", "'", "AND results.random_session_id IN (".$trend.")");
+        }
+
+        if ($population_id == '0') {
+            $where_population = "";
+        } else {
+            $where_population = "AND results.population_id='".$population_id."'";
+        }
+
+        if ($trust) {
+            $where_trust = "";
+        } else {
+            $where_trust = "AND results.trust=".$trust;
+        }
+
+        $dropoff_trend = "";
+        if($device) {
+            $where_device = " AND drop_offs.device='".$device."'";
+
+            if(strlen($trend) > 0)
+                $dropoff_trend = str_replace("\'", "'", "AND drop_offs.random_session_id IN (".$trend.")");
+        } else {
+            $where_device = "";
+            $dropoff_trust = "";
+        }
+
+        $result = [
+            'trend'       =>  $where_trend,
+            'population'  =>  $where_population,
+            'trust'       =>  $where_trust,
+            'device'      =>  $where_device,
+            'dropoff_trend' => $dropoff_trend
+        ];
+
+        return $result;
+    }
+}
+
+if(!function_exists('get_demographic_name')) {
+    function get_demographic_name($index) {
+        $return = 'Default';
+        switch($index) {
+            case '1':
+                $return = 'Gender';
+                break;
+            case '2':
+                $return = 'Ages';
+                break;
+            case '3':
+                $return = 'Location';
+                break;
+            case '4':
+                $return = 'Education';
+                break;
+            case '5':
+                $return = 'Others';
+                break;
+            default:
+                break;
+        }
+
+        return $return;
     }
 }

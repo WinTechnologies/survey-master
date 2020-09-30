@@ -13,14 +13,16 @@ class ThemeController extends Controller
     {
         return response()->json([
             'message'   =>  'Get the theme list',
-            'result' => Theme::all()
+            'result' => Theme::all(),
+            'code'  => 200
         ]);
     }
 
     public function get($id) {
         return response()->json([
             'message'   =>  'Get the theme by id',
-            'result'    =>  Theme::find($id)
+            'result'    =>  Theme::find($id),
+            'code'      =>  200
         ]);
     }
 

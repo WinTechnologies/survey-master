@@ -16,7 +16,8 @@
         "jenssegers/agent": "^2.6",
         "laravel/framework": "^7.24",
         "laravel/passport": "^9.3",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "phpoffice/phpspreadsheet": "^1.14"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

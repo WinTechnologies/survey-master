@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
@@ -39,4 +40,21 @@ class Question extends Model
             $question->answers()->delete();
        });
     }
+
+    public function result() {
+        return $this->hasMany('App\Models\Result');
+    }
+
+    public static function question_answers_by_survey($survey_id) {
+        $sql = "SELECT q.id as question_id, q.question, a.content, q.type, q.point, a.id as answer_id
+                    FROM answers a
+                    LEFT JOIN questions q ON q.id = a.question_id
+                    WHERE q.survey_id = ".$survey_id."
+                    ORDER BY a.id";
+
+        $result = DB::select($sql);
+
+        return $result;
+    }
+
 }
