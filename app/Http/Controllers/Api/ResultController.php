@@ -488,14 +488,12 @@ class ResultController extends Controller
             }
         }
 
-
-        if(count($user_list) > 0)
+        $random_session_ids = "";
+        if(count($user_list) > 0) {
             $random_session_id_list = implode (',', $user_list);
-        else {
-            $random_session_id_list = "'no_attend'";
+            $random_session_ids = str_replace("\'", "'", "AND random_session_id IN (".$random_session_id_list.")");
         }
 
-        $random_session_ids = str_replace("\'", "'", "AND random_session_id IN (".$random_session_id_list.")");
 
         return $random_session_ids;
     }

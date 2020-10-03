@@ -48,7 +48,7 @@ class ThemeController extends Controller
             $upload_path = 'public/themes/'.$image_name;
             Storage::disk('local')->put($upload_path, $image, 'public');
 
-            $params['img_url'] = $upload_path;
+            $params['img_url'] = 'storage/themes/'.$image_name;
             $params['created_at'] = now();
 
             Theme::insert($params);
