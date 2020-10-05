@@ -392,6 +392,7 @@ class ResultController extends Controller
             }
 
             DB::table('results')->insert($results);
+            $survey->increment('views');
             // Commit
             DB::commit();
             $message = 'The user answer data has been saved into the database for this survey.';

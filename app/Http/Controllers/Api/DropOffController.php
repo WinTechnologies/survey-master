@@ -39,8 +39,6 @@ class DropOffController extends Controller
                 array_push($drop_offs, $temp);
             }
 
-            $survey->increment('views');
-
             DB::table('drop_offs')->insert($drop_offs);
             // Commit
             DB::commit();
