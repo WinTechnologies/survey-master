@@ -40,15 +40,7 @@ class ThemeController extends Controller
             }
 
             $params = $request->json()->all();
-
-            // Image Upload
-            $base64_str = substr($params['img_url'], strpos($params['img_url'], ",")+1);
-            $image = base64_decode($base64_str);
-            $image_name = 'theme-'.time().'.png';
-            $upload_path = 'public/themes/'.$image_name;
-            Storage::disk('local')->put($upload_path, $image, 'public');
-
-            $params['img_url'] = 'storage/themes/'.$image_name;
+            $params['img_url'] = $params['img_url'];
             $params['created_at'] = now();
 
             Theme::insert($params);
@@ -87,10 +79,7 @@ class ThemeController extends Controller
             }
 
             // Image Upload
-            $base64_str = substr($params['img_url'], strpos($params['img_url'], ",")+1);
-            $image = base64_decode($base64_str);
-            $image_name = 'theme-'.time().'.png';
-            $upload_path = 'public/themes/'.$image_name;
+            $upload_path = $params['img_url'];
             Storage::disk('local')->put($upload_path, $image, 'public');
 
             $theme = Theme::find($id);
