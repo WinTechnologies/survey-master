@@ -444,4 +444,32 @@ class SurveyController extends Controller
 
         return $image_url;
     }
+
+    public function jumplogic(Request $request, $question_id) {
+        $question = Question::find($question_id);
+
+        if(!$question)
+            return response()->json([
+                'message'   =>  'The question id is null.',
+                'result'    =>  null,
+                'next'      =>  false,
+                'code'      =>  400,
+            ]);
+        $params = $request->all();
+
+        $jump_logic = $params['jumps'];
+
+        $data = [
+            'jump_logic'    => $jump_logic
+        ];
+
+        $result = $question->update($data);
+
+        return response()->json([
+            'message'   =>  'The jump logic is updated',
+            'result'    =>  $result,
+            'code'      =>  200,
+            'status'    =>  'success'
+        ]);
+    }
 }

@@ -99,4 +99,6 @@ Route::middleware('auth:api')->group(function(){
     // Upload
     Route::post('/upload','Api\SurveyController@upload')->name('surveys.upload');
 
+    // Jump Logic
+    Route::post('/jump-logic/{question_id}', 'Api\SurveyController@jumplogic')->name('questions.jumplogic');
 });
