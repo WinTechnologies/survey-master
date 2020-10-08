@@ -89,6 +89,7 @@ class SurveyController extends Controller
                 'shape'                 =>  $q->shape,
                 'point'                 =>  $q->point,
                 'video_src'             =>  $q->video_src,
+                'jump_logic'            =>  $q->jump_logic,
                 'answers'               =>  []
             ];
 
@@ -292,6 +293,7 @@ class SurveyController extends Controller
                     'demographic'           =>  $q->demographic,
                     'answer_limit'          =>  $q->answer_limit,
                     'jump_id'               =>  $q->jump_id,
+                    'jump_logic'            =>  $q->jump_logic,
                     'answers'               =>  null
                 ];
 
@@ -463,7 +465,7 @@ class SurveyController extends Controller
             'jump_logic'    => $jump_logic
         ];
 
-        $result = $question->update($data);
+        $result = Question::where('id', $question_id)->update($data);
 
         return response()->json([
             'message'   =>  'The jump logic is updated',
