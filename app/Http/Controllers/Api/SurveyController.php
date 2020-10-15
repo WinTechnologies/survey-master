@@ -125,6 +125,7 @@ class SurveyController extends Controller
         $status = 'error';
 
         try {
+            $user_id = Auth::user()->id;
             $params = $request->json()->all();
 
             // Begin Transaction
@@ -153,6 +154,7 @@ class SurveyController extends Controller
             $new_survey->auto_submit = $input_survey['auto_submit'];
             $new_survey->is_one_response = isset($input_survey['is_one_response'])?1:0;
             $new_survey->redirect_url = $input_survey['redirect_url'];
+            $new_survey->user_id = $user_id;
             $new_survey->save();
             $survey_id = $new_survey->id;
 
@@ -263,7 +265,8 @@ class SurveyController extends Controller
                 'timer_min'         =>  $survey->timer_min,
                 'timer_sec'         =>  $survey->timer_sec,
                 'expired_at'        =>  $survey->expired_at,
-                'auto_submit'       =>  $survey->auto_submit
+                'auto_submit'       =>  $survey->auto_submit,
+                'user_id'           =>  $user_id
             ];
 
             // New Survey
@@ -283,6 +286,7 @@ class SurveyController extends Controller
             $new_survey->timer_sec = $input_survey['timer_sec'];
             $new_survey->expired_at = $input_survey['expired_at'];
             $new_survey->auto_submit = $input_survey['auto_submit'];
+            $new_survey->user_id = $input_survey['user_id'];
             $new_survey->save();
             $survey_id = $new_survey->id;
 
