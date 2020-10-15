@@ -28,7 +28,8 @@ class Survey extends Model
         'is_one_response',
         'redirect_url',
         'shape',
-        'point'
+        'point',
+        'user_id'
     ];
 
     public function questions()

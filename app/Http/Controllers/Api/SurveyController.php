@@ -8,13 +8,21 @@ use Illuminate\Http\Request;
 use App\Models\Survey;
 use App\Models\Question;
 use App\Models\Answer;
+use Auth;
 
 class SurveyController extends Controller
 {
     public function all() {
-        $surveies = Survey::all();
+        $user_id = Auth::user()->id;
+
+        if($user_id == 1 ){
+            $surveys = Survey::all();
+        } else {
+            $surveys = Survey::where('user_id', $user_id)->get();
+        }
+
         $result = [];
-        foreach($surveies as $s) {
+        foreach($surveys as $s) {
             $result[] = [
                 'id'            =>  $s->id,
                 'title'         =>  $s->title,
