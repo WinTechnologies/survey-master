@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\Survey;
 use App\Models\Question;
@@ -28,6 +29,7 @@ class SurveyController extends Controller
                 'title'         =>  $s->title,
                 'population_id' =>  $s->population_id,
                 'group_name'    =>  $s->population->group_name,
+                'group_type'    =>  $s->population->type,
                 'language'      =>  $s->language,
                 'views'         =>  $s->views,
                 'data_created'  =>  $s->created_at
