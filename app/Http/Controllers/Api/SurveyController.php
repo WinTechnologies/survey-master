@@ -250,7 +250,7 @@ class SurveyController extends Controller
             $result = [];
             // Begin Transaction
             DB::beginTransaction();
-
+            $user_id = Auth::user()->id;
             $input_survey  = [
                 'title'             =>  $survey->title,
                 'intro'             =>  $survey->intro,
